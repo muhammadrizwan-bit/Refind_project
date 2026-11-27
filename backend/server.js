@@ -3,9 +3,14 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const dns = require("node:dns");
+
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
+
+require("dotenv").config();
 
 // Load environment variables FIRST
-dotenv.config();
+// dotenv.config();
 
 // Import database and routes AFTER dotenv
 const connectDB = require("./config/db.js");
@@ -44,9 +49,11 @@ const startServer = async () => {
   try {
     await connectDB();
 
-    app.listen(PORT, () => {
-      console.log(`ReFind Server running on port ${PORT}`);
-    });
+  //  const PORT = process.env.PORT || 1318;
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`ReFind Server running on port ${PORT}`);
+});
   } catch (error) {
     console.error("Server startup failed:", error);
     process.exit(1);
